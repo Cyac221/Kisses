@@ -4,6 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Isabelita por dios hija</title>
+  <nav class="nav">
+  <a href="./index.html">Besitos</a>
+  <a class="active" href="./flowers.html">Flores</a>
+</nav>
+
   <style>
     :root{
       --brand:#005A58;
@@ -83,6 +88,7 @@
       margin-bottom: 10px;
       color:var(--brand);
     }
+  
 
     .row{
       display:flex;
@@ -255,6 +261,38 @@
       font-size: 12px;
       opacity:.8;
     }
+  
+.nav{
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 1000;
+
+  display:flex;
+  gap:12px;
+  align-items:center;
+
+  padding: 10px 12px;
+  border:1px solid rgba(0,90,88,.20);
+  border-radius: 14px;
+  background: rgba(0,90,88,.06);
+  backdrop-filter: blur(6px);
+}
+.nav a{
+  text-decoration:none;
+  color:#005A58;
+  font-weight:700;
+  padding:8px 10px;
+  border-radius: 12px;
+  border:1px solid rgba(0,90,88,.18);
+}
+.nav a:hover{ background: rgba(0,90,88,.08); }
+.nav a.active{
+  background:#005A58;
+  color:#fff;
+  border-color:#005A58;
+}
+
   </style>
 </head>
 
