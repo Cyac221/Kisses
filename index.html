@@ -261,8 +261,8 @@
 <body>
   <main>
     <header>
-      <h1>Isabelita por dios hija!</h1>
-      <p class="sub">Si me descuidas te monto una aplicación completa :D</p>
+      <h1>Una app para isabelita!</h1>
+      <p class="sub">Esta es una app hecha para isabelita de parte de un fan</p>
     </header>
 
     <section class="grid" aria-label="Calculadora de besitos">
@@ -273,7 +273,7 @@
           <button id="go">Enviar</button>
           <button id="stop" class="secondary" title="Detener impresión">Detener</button>
         </div>
-        <p class="hint">Si pides más de 1000 se me colapsa la jeta, asi que con prudencia</p>
+        <p class="hint">Si pides más de 10.000 se me colapsa la jeta, asi que con prudencia</p>
 
         <div class="status" role="status" aria-live="polite">
           <div class="dot" id="dot"></div>
@@ -380,9 +380,9 @@
 
       const intN = Math.floor(n);
 
-      if(intN > 1000){
+      if(intN > 10000){
         shake();
-        setStatus('Te dije que no me rompieras el programa con más de 1000 besitos!', false);
+        setStatus('Te dije que no me rompieras el programa con más de 10.000 besitos!', false);
         return;
       }
 
