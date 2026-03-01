@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nuestra línea de tiempo ✨</title>
+  <style>
+    :root{
+      /* Paleta base: #005a58 y gama */
+      --base: #005a58;
+      --base-2: #007a76;
+      --base-3: #00a39d;
+      --mint: #bff3ef;
+
+      --bg0: #031818;
+      --bg1: #052222;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.04);
+      --border: rgba(191,243,239,.18);
+      --border-strong: rgba(0,163,157,.45);
+
+      --text: #eafffe;
+      --muted: rgba(234,255,254,.72);
+
+      --shadow: 0 18px 55px rgba(0,0,0,.42);
+      --radius: 18px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px 16px;
+
+      /* Fondo teal + glow */
+      background:
+        radial-gradient(1100px 700px at 18% 12%, rgba(0,163,157,.22), transparent 55%),
+        radial-gradient(900px 650px at 82% 20%, rgba(0,122,118,.18), transparent 58%),
+        radial-gradient(1200px 900px at 50% 100%, rgba(0,90,88,.35), transparent 60%),
+        linear-gradient(180deg, #021010, var(--bg0) 40%, #021010);
+    }
+
+    .app{
+      width:min(980px, 100%);
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid var(--border);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      overflow:hidden;
+      backdrop-filter: blur(8px);
+    }
+
+    header{
+      padding:18px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    header h1{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.2px;
+      line-height:1.2;
+    }
+    header p{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.35;
+      max-width: 62ch;
+    }
+
+    .badge{
+      font-size:11px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(0,163,157,.35);
+      background: linear-gradient(180deg, rgba(0,163,157,.18), rgba(0,90,88,.10));
+      color: var(--text);
+      display:inline-flex;
+      gap:7px;
+      align-items:center;
+      user-select:none;
+      white-space:nowrap;
+      height: fit-content;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+
+    .viewer{ padding:18px; display:grid; gap:14px; }
+
+    .card{
+      background: linear-gradient(180deg, rgba(0,163,157,.10), rgba(255,255,255,.02));
+      border:1px solid rgba(0,163,157,.22);
+      border-radius: var(--radius);
+      overflow:hidden;
+    }
+
+    .event__top{
+      padding:16px 16px 10px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .event__title{ margin:0; font-size: 18px; line-height:1.2; }
+    .event__date{ color:var(--muted); font-size:12px; margin-top:6px; }
+
+    .event__body{ padding:0 16px 16px; display:grid; gap:12px; }
+    .event__text{
+      line-height:1.6;
+      font-size:14px;
+      white-space:pre-wrap;
+      color: rgba(234,255,254,.92);
+    }
+
+    .imgWrap{
+      position:relative;
+      border-radius: 16px;
+      overflow:hidden;
+      border:1px solid rgba(191,243,239,.20);
+      background:
+        radial-gradient(900px 260px at 50% 0%, rgba(0,163,157,.18), transparent 55%),
+        rgba(0,0,0,.18);
+      min-height: 260px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .imgWrap::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(0,90,88,.0), rgba(0,0,0,.28));
+      pointer-events:none;
+    }
+
+    .imgWrap img{
+      width:100%;
+      height:auto;
+      display:block;
+      max-height: 6000px;
+      object-fit:cover;
+      transform: scale(1.01);
+      filter: saturate(1.08) contrast(1.02);
+    }
+
+    .imgEmpty{
+      color: rgba(234,255,254,.72);
+      font-size: 13px;
+      padding:18px;
+      text-align:center;
+      line-height:1.4;
+    }
+
+    .controls{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    button{
+      border:1px solid rgba(191,243,239,.22);
+      background: rgba(3,24,24,.35);
+      color: var(--text);
+      padding:10px 12px;
+      border-radius: 16px;
+      cursor:pointer;
+      font-weight: 750;
+      font-size: 13px;
+      transition: transform .08s ease, background .2s ease, border-color .2s ease, opacity .2s ease, box-shadow .2s ease;
+      user-select:none;
+    }
+    button:hover{
+      background: rgba(0,163,157,.14);
+      border-color: rgba(0,163,157,.45);
+      box-shadow: 0 16px 45px rgba(0,0,0,.35);
+    }
+    button:active{transform: translateY(1px);}
+
+    button.primary{
+      border-color: rgba(0,163,157,.55);
+      background: linear-gradient(180deg, rgba(0,163,157,.24), rgba(0,90,88,.12));
+    }
+
+    button:disabled{ cursor:not-allowed; opacity:.55; }
+
+    .hint{
+      color: rgba(234,255,254,.70);
+      font-size: 12px;
+      line-height:1.35;
+      padding:0 2px;
+      text-align:center;
+    }
+
+    .finale{
+      margin-top:8px;
+      padding:16px;
+      border-radius: var(--radius);
+      border: 1px dashed rgba(0,163,157,.55);
+      background:
+        radial-gradient(900px 420px at 18% 10%, rgba(0,163,157,.22), transparent 55%),
+        radial-gradient(700px 420px at 85% 20%, rgba(0,122,118,.16), transparent 55%),
+        rgba(0,0,0,.14);
+      display:grid;
+      gap:12px;
+    }
+    .finale h3{margin:0;font-size:16px;}
+    .finale p{margin:0;color:var(--muted);font-size:13px;line-height:1.45;}
+
+    /* Modal */
+    .modalBackdrop{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.58);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      z-index: 50;
+    }
+    .modal{
+      width:min(560px, 100%);
+      background:
+        radial-gradient(900px 360px at 20% 10%, rgba(0,163,157,.20), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid rgba(191,243,239,.22);
+      border-radius: 22px;
+      box-shadow: 0 30px 90px rgba(0,0,0,.55);
+      overflow:hidden;
+    }
+    .modal header{
+      border-bottom: 1px solid rgba(191,243,239,.18);
+      align-items:center;
+    }
+    .modal .content{ padding:16px; display:grid; gap:12px; }
+    .choices{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    .bigChoice{
+      padding:14px;
+      border-radius: 18px;
+      border:1px solid rgba(191,243,239,.20);
+      background: rgba(3,24,24,.35);
+      cursor:pointer;
+      transition: background .2s ease, border-color .2s ease, transform .08s ease, box-shadow .2s ease;
+      user-select:none;
+      display:grid;
+      gap:6px;
+      text-align:left;
+    }
+    .bigChoice:hover{
+      background: rgba(0,163,157,.14);
+      border-color: rgba(0,163,157,.45);
+      box-shadow: 0 18px 50px rgba(0,0,0,.42);
+    }
+    .bigChoice:active{transform: translateY(1px);}
+    .bigChoice b{font-size:14px;}
+    .bigChoice span{color:rgba(234,255,254,.74); font-size:12px; line-height:1.35;}
+
+    .spark{
+      position:fixed;
+      pointer-events:none;
+      border-radius:999px;
+      opacity:.9;
+      left:0;top:0;
+      transform: translate(-50%,-50%);
+      mix-blend-mode: screen;
+      z-index: 80;
+      animation: pop 650ms ease forwards;
+    }
+    @keyframes pop{
+      to{ transform: translate(-50%,-50%) scale(0.1); opacity:0; filter: blur(1px);}
+    }
+
+    .toast{
+      position: fixed;
+      left: 16px;
+      bottom: 16px;
+      background: rgba(3,24,24,.80);
+      border:1px solid rgba(191,243,239,.22);
+      padding:10px 12px;
+      border-radius: 16px;
+      color: var(--text);
+      font-size: 13px;
+      box-shadow: 0 20px 55px rgba(0,0,0,.4);
+      display:none;
+      z-index: 90;
+    }
+  </style>
+</head>
+<body>
+  <div class="app panel">
+    <header>
+      <div>
+        <h1>📅 Esta es nuestra historia.</h1>
+      </div>
+      <div class="badge" id="vIndex">—</div>
+    </header>
+
+    <div class="viewer">
+      <div class="card">
+        <div class="event__top">
+          <div>
+            <h2 class="event__title" id="vTitle">—</h2>
+            <div class="event__date" id="vDate">—</div>
+          </div>
+          <div class="badge" id="vTag">✨ Recuerdo</div>
+        </div>
+
+        <div class="event__body">
+          <div class="imgWrap">
+            <div class="imgEmpty" id="vImgEmpty">Aquí irá una foto 📸</div>
+            <img id="vImg" alt="" style="display:none;" />
+          </div>
+
+          <div class="event__text" id="vText">—</div>
+
+          <div class="controls">
+            <button class="primary" id="prevBtn">⟵ Anterior</button>
+            <div class="hint" id="hint">—</div>
+            <button class="primary" id="nextBtn">Siguiente ⟶</button>
+          </div>
+
+          <div class="finale" id="finaleBox" style="display:none;">
+            <h3>Todo este tiempo saliendo contigo ha sido espectacular, y creo que es momento de dar un paso mas.</h3>
+            <p id="finaleText">Respira. Sonríe. Y cuando estés listo…</p>
+            <button class="primary" id="askBtn"> Dale aquì</button>
+            <div class="hint"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modalBackdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true">
+      <header>
+        <div>
+          <h1 style="font-size:16px;margin:0;">💞 ¿Quieres ser mi novia?</h1>
+          <p style="margin:6px 0 0;color:var(--muted);font-size:13px;">
+          </p>
+        </div>
+        <button class="primary" id="closeModalBtn" style="padding:8px 10px;">Cerrar</button>
+      </header>
+
+      <div class="content">
+        <div class="choices">
+          <div class="bigChoice" id="yesChoice">
+            <b>✅ Sí</b>
+            <span>:)</span>
+          </div>
+          <div class="bigChoice" id="noChoice">
+            <b>❌ No</b>
+            <span>:(</span>
+          </div>
+        </div>
+        <div class="hint" id="modalNote">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // =======================
+    // CONFIG: CARGA TUS EVENTOS AQUÍ (solo lectura)
+    // img puede ser URL (https://...) o vacío ""
+    // =======================
+    const EVENTS = [
+      {
+        date: "2020-02-10", //Ok
+        title: "La primera foto memorable de los 2.",
+        text: "Una foto que nos tomamos por tomarnos sin saber lo que iba a pasar después\nUn recuerdo muy prepandémico la verdad.\nTremendos pollitos :3",
+        img: "src/2019.jpg"
+
+      },
+      {
+        date: "2020-02-18", //Ok
+        title: "Otra fotico prepandémica.",
+        text: "Esta foto siempre me gustó mucho.\nHabía mas gente en la foto pero no quedaron tan espectaculares :)",
+        img: "src/2019-2.jpg"
+      },
+      {
+        date: "2020-11-27", //Ok
+        title: "La primera vez que nos volvimos a ver después de tantos meses de pandemia.",
+        text: "Nunca entendí por que nos tomamos esta foto tu y yo, una casualidad?",
+        img: "src/2020-2.jpg"
+      },
+      {
+        date: "2021-04-06", //Ok
+        title: "Videollamadas y mas videollamadas.",
+        text: "Siempre fueron muy especiales. Me acompañaron y me acompañaste en los cambios de mi nueva vida de adulto independiente\nFueron cercanía en mi lejanía monteriana",
+        img: "src/2020.jpg"
+      },
+        {
+        date: "2021-12-23", //Ok
+        title: "La primera vez que fuimos a san pedro.",
+        text: "Nuestra primera vez conociendo uno de tus lugares favoritos en la tierra.\nEse día algo cambió\n",
+        img: "src/2021-2.jpg"
+      },
+      {
+        date: "2021-12-23", //Ok
+        title: "La primera vez que fuimos a san pedro parte 2,",
+        text: " ",
+        img: "src/2021.jpg"
+      },
+      {
+        date: "2025-12-06", //Ok
+        title: "Nuestra primera salida tu y yo solos.",
+        text: "No tengo foto de nosotros, asi que pongo una foto de la valla que fuimos a visitar jajajajajaja :)\nAmbos ibamos sin intención de nada, sin saber que esto se nos iba a terminar saliendo un poquito de las manos",
+        img: "src/VALLA.jpg"
+      },
+      {
+        date: "2025-12-28", //Ok
+        title: "Siendo nosotros :)",
+        text: "Mi primera vez tinturando un cabello. Y tu primera vez siendo tinturada por este estilista profesional",
+        img: "src/2025.jpg"
+      },
+        {
+        date: "2025-12-28", //Ok
+        title: "Unos lindos :)",
+        text: "Siendo nosotros, siendo lindossss!",
+        img: "src/2025-2.jpg"
+      },
+        {
+        date: "2026-01-10", //Ok
+        title: "Isabelita conociendo a mi familia :).",
+        text: ":P",
+        img: "src/15-juli.jpg"
+      },
+              {
+        date: "2026-02-02", //Ok
+        title: "Siendo felices :)",
+        text: " ",
+        img: "src/lindos.jpg"
+      },
+        {
+        date: "2026-02-21", //Ok
+        title: "Mi primer 21 de febrero con isabelita",
+        text: "Lograste transfotmar  un dia tan normal para mi, en uno que siempre voy a recordar, en donde me di cuenta lo importante que soy\nUn dìa en donde me hiciste sentir muy amado",
+        img: "src/CUMPLEAÑOS.jpg"
+      },
+              {
+        date: "2026-02-21", //Ok
+        title: "Mi primer 21 de febrero con isabelita",
+        text: "Recuerdo mi cumpleaños y me emociona saber que te emociona mas que a mi, es raro de explicar pero lindo\n:)",
+        img: "src/21febrero.jpg"
+      },
+                    {
+        date: "2026-02-21", //Ok
+        title: "Mi primer 21 de febrero con isabelita",
+        text: "❤️❤️❤️",
+        img: "src/final.jpeg"
+      },
+      
+
+    ];
+
+    const MODAL_TEXT = {
+      yesToast: " ",
+      noToast: " "
+    };
+
+    // =======================
+    // APP (solo navegación)
+    // =======================
+    const state = { index: 0 };
+
+    const vTitle = document.getElementById("vTitle");
+    const vDate  = document.getElementById("vDate");
+    const vText  = document.getElementById("vText");
+    const vIndex = document.getElementById("vIndex");
+    const vTag   = document.getElementById("vTag");
+
+    const vImg = document.getElementById("vImg");
+    const vImgEmpty = document.getElementById("vImgEmpty");
+
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const hintEl  = document.getElementById("hint");
+
+    const finaleBox = document.getElementById("finaleBox");
+    const finaleText = document.getElementById("finaleText");
+    const askBtn = document.getElementById("askBtn");
+
+    const modalBackdrop = document.getElementById("modalBackdrop");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const yesChoice = document.getElementById("yesChoice");
+    const noChoice = document.getElementById("noChoice");
+
+    const toast = document.getElementById("toast");
+
+    const fmtDate = (iso) => {
+      if(!iso) return "—";
+      const [y,m,d] = iso.split("-").map(Number);
+      const dt = new Date(y, (m-1), d);
+      return dt.toLocaleDateString("es-CO", {year:"numeric", month:"long", day:"numeric"});
+    };
+
+    function clampIndex(){
+      state.index = Math.max(0, Math.min(state.index, EVENTS.length - 1));
+    }
+
+    function current(){
+      return EVENTS[state.index];
+    }
+
+    function toastMsg(msg){
+      toast.textContent = msg;
+      toast.style.display = "block";
+      toast.animate([{transform:"translateY(10px)",opacity:0},{transform:"translateY(0)",opacity:1}], {duration:180, easing:"ease-out"});
+      clearTimeout(toast._t);
+      toast._t = setTimeout(()=> toast.style.display="none", 1700);
+    }
+
+    function spark(x,y){
+      const s = document.createElement("div");
+      s.className = "spark";
+      s.style.left = x + "px";
+      s.style.top = y + "px";
+      const hue = Math.floor(165 + Math.random()*25); // teal-ish
+      s.style.background = `hsl(${hue} 85% 58%)`;
+      s.style.boxShadow = `0 0 18px hsl(${hue} 85% 58% / .85)`;
+      const size = 6 + Math.random()*10;
+      s.style.width = s.style.height = size + "px";
+      document.body.appendChild(s);
+      setTimeout(()=> s.remove(), 700);
+    }
+
+    function burst(){
+      const cx = window.innerWidth/2;
+      const cy = window.innerHeight/2;
+      for(let i=0;i<18;i++){
+        spark(cx + (Math.random()*240 - 120), cy + (Math.random()*200 - 100));
+      }
+    }
+
+    function render(){
+      if(EVENTS.length === 0){
+        vTitle.textContent = "No hay eventos";
+        vDate.textContent = "—";
+        vText.textContent = "Carga tus eventos en la constante EVENTS dentro del código.";
+        vIndex.textContent = "0/0";
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+        finaleBox.style.display = "none";
+        vImg.style.display = "none";
+        vImgEmpty.style.display = "block";
+        hintEl.textContent = "—";
+        return;
+      }
+
+      clampIndex();
+      const ev = current();
+      const isLast = state.index === EVENTS.length - 1;
+
+      vTitle.textContent = ev.title || "—";
+      vDate.textContent  = ev.date ? fmtDate(ev.date) : "—";
+      vText.textContent  = ev.text || "—";
+      vIndex.textContent = `${state.index+1} / ${EVENTS.length}`;
+
+      vTag.textContent = isLast ? "💞 Final" : "✨ Recuerdo";
+
+      if(ev.img){
+        vImg.src = ev.img;
+        vImg.alt = ev.title || "Foto";
+        vImg.style.display = "block";
+        vImgEmpty.style.display = "none";
+      } else {
+        vImg.removeAttribute("src");
+        vImg.style.display="none";
+        vImgEmpty.style.display="block";
+      }
+
+      prevBtn.disabled = state.index === 0;
+      nextBtn.disabled = isLast;
+
+      hintEl.textContent = isLast
+        ? ""
+        : "";
+
+      finaleBox.style.display = isLast ? "grid" : "none";
+      if(isLast){
+        finaleText.textContent = "...";
+      }
+    }
+
+    function go(delta){
+      state.index += delta;
+      clampIndex();
+      render();
+    }
+
+    function openModal(){
+      modalBackdrop.style.display = "flex";
+      modalBackdrop.setAttribute("aria-hidden", "false");
+      burst();
+    }
+    function closeModal(){
+      modalBackdrop.style.display = "none";
+      modalBackdrop.setAttribute("aria-hidden", "true");
+    }
+
+    prevBtn.addEventListener("click", ()=> go(-1));
+    nextBtn.addEventListener("click", ()=> go(1));
+
+    window.addEventListener("keydown", (e)=>{
+      if(modalBackdrop.style.display === "flex"){
+        if(e.key === "Escape") closeModal();
+        return;
+      }
+      if(e.key === "ArrowLeft") go(-1);
+      if(e.key === "ArrowRight") go(1);
+    });
+
+    window.addEventListener("click", (e)=>{
+      if(Math.random() < 0.22) spark(e.clientX, e.clientY);
+    });
+
+    askBtn.addEventListener("click", openModal);
+    closeModalBtn.addEventListener("click", closeModal);
+    modalBackdrop.addEventListener("click", (e)=>{ if(e.target === modalBackdrop) closeModal(); });
+
+yesChoice.addEventListener("click", ()=>{
+  burst();
+
+  setTimeout(()=>{
+    window.location.href = "flowers.html";
+  }, 100);
+});
+    noChoice.addEventListener("click", ()=>{
+      window.location.href="no.html"
+    });
+
+    render();
+  </script>
+</body>
+</html>
