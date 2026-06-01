@@ -243,15 +243,6 @@
       line-height: 1.1;
     }
 
-    .to-cc{
-            font-family: 'Fraunces', serif;
-      font-size: 8px;
-      font-weight: 300;
-      color: var(--|);
-      line-height: 1.1;
-      text-align: center;
-    }
-
     .to-from {
       font-size: 13px;
       color: var(--muted);
@@ -427,12 +418,52 @@
     .btn-confetti:hover { filter: brightness(1.15); }
     .btn-confetti:active { transform: translateY(1px) scale(.99); }
 
-    /* ── RESPONSIVE ── */
+    /* ── RESPONSIVE MOBILE ── */
     @media (max-width: 520px) {
-      .ticket-top, .ticket-bottom { padding: 24px 28px 20px; }
-      .ticket-divider { margin: 0 16px; }
+      body { padding: 70px 12px 40px; }
+
+      /* Nav compacta en mobile */
+      .nav {
+        top: 10px; left: 50%;
+        transform: translateX(-50%);
+        gap: 6px;
+        padding: 8px 10px;
+      }
+      .nav a { font-size: 11px; padding: 6px 9px; }
+
+      /* Ticket más compacto */
+      .ticket-top { padding: 20px 20px 16px; }
+      .ticket-bottom {
+        padding: 16px 20px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .ticket-divider { margin: 0 12px; }
+
+      /* Info grid en 2 columnas en mobile */
+      .info-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+
+      /* Countdown sin separadores en pantallas pequeñas */
       .countdown-sep { display: none; }
-      .message-card { padding: 24px 24px; }
+      .countdown-card { padding: 20px 16px; }
+      .countdown-grid { gap: 8px; }
+      .countdown-unit { min-width: 52px; }
+
+      /* Mensaje */
+      .message-card { padding: 20px 18px; }
+
+      /* Barcode al costado en mobile */
+      .barcode { align-self: flex-end; }
+
+      /* Nombre más pequeño en pantallas muy chicas */
+      .to-name { font-size: 22px; }
+    }
+
+    @media (max-width: 380px) {
+      .nav a { font-size: 10px; padding: 5px 7px; }
+      .info-grid { grid-template-columns: 1fr; }
+      .countdown-unit { min-width: 44px; }
     }
 
     /* ── SPARKLES (canvas helper) ── */
@@ -500,7 +531,7 @@
         <div class="to-block">
           <span class="to-label">Esta entrada es para</span>
           <span class="to-name">Isabela Ortiz</span>
-        <span class="to-cc">1.000.903.029</span>
+          <span class="to-cc">1.000.903.029</span>
           <span class="to-from">Con amor, de Carlitos 💚</span>
         </div>
 
@@ -535,22 +566,23 @@
           <div class="countdown-unit-label">Segundos</div>
         </div>
       </div>
+      <div class="countdown-footer">para la noche más especial del año 🎶</div>
     </div>
 
     <!-- MENSAJE -->
     <div class="message-card">
       <p class="message-text">
         "Isabelita, esto no es solo un concierto.<br>
-        Es una noche que ya te mereces, con la música que tanto amas,<br>
-        al lado de alguien que te adora.<br><br>
+        Es una noche que ya te mereces, con la música que tanto amas  :),<br>
+        <br>
         Nos vemos el 24 de julio."
       </p>
-      <p class="message-sign">— Tu Carlos 💚</p>
+      <p class="message-sign">— Calitos 💚</p>
     </div>
 
     <!-- BOTÓN -->
     <button class="btn-confetti" id="celebrateBtn">
-      🎉 ¡Estoy feliz, esto merece celebración!
+      🎉 Esto merece celebración!
     </button>
 
 
