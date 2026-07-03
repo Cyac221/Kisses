@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El cumpleaños de mi hermosa novia</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: #F7F3ED;
+            color: #3F3A34;
+            display: flex;
+            justify-content: center;
+            padding: 30px 18px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 430px;
+            background: #FFFDF9;
+            border-radius: 24px;
+            padding: 30px;
+            border: 1px solid #E9DFD2;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, .06);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .tag {
+            display: inline-block;
+            color: #A88858;
+            font-size: .75rem;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #766A5F;
+            line-height: 1.6;
+            font-size: .95rem;
+        }
+
+        .timeline {
+            position: relative;
+            margin-top: 15px;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 88px;
+            top: 5px;
+            bottom: 5px;
+            width: 2px;
+            background: #E4D8C8;
+        }
+
+        .event {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 25px;
+            margin-bottom: 28px;
+            position: relative;
+        }
+
+        .time {
+            text-align: right;
+            font-size: .85rem;
+            color: #B08D57;
+            font-weight: 600;
+            padding-top: 4px;
+        }
+
+        .content {
+            position: relative;
+            background: #FCF8F2;
+            border-radius: 16px;
+            border: 1px solid #EEE3D6;
+            padding: 18px;
+        }
+
+        .content::before {
+            content: "";
+            position: absolute;
+            left: -33px;
+            top: 22px;
+            width: 14px;
+            height: 14px;
+            background: #B08D57;
+            border-radius: 50%;
+            border: 4px solid #F7F3ED;
+        }
+
+        .content h3 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .content p {
+            color: #6F655B;
+            line-height: 1.6;
+            font-size: .92rem;
+        }
+
+        .footer {
+            margin-top: 35px;
+            padding-top: 22px;
+            border-top: 1px solid #E8DDD0;
+            text-align: center;
+            color: #8A7E73;
+            font-size: .92rem;
+            line-height: 1.6;
+        }
+
+        .heart {
+            color: #C77C7C;
+        }
+
+        @media (max-width:420px) {
+
+            .card {
+                padding: 24px;
+            }
+
+            .timeline::before {
+                left: 80px;
+            }
+
+            .event {
+                grid-template-columns: 72px 1fr;
+                gap: 18px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="card">
+
+        <div class="header">
+
+            <span class="tag">ITINERARIO</span>
+
+            <h1>6 de julio de 2025</h1>
+
+            <p class="subtitle">
+                Hoy solo tienes una misión:
+                disfrutar cada momento.
+                Yo me encargo del resto.
+            </p>
+
+        </div>
+
+        <div class="timeline">
+
+            <div class="event">
+                <div class="time">8:30</div>
+
+                <div class="content">
+                    <h3>🏍️ Salida</h3>
+                    <p>Comienza nuestra aventura.</p>
+                </div>
+            </div>
+
+            <div class="event">
+                <div class="time">10:30</div>
+
+                <div class="content">
+                    <h3>🌿 Arde la Selva</h3>
+                    <p>Un día para descansar, relajarnos y disfrutar juntos.</p>
+                </div>
+            </div>
+
+            <div class="event">
+                <div class="time">Todo el día</div>
+
+                <div class="content">
+                    <h3>☀️ Disfrutar</h3>
+                    <p>Piscina, naturaleza, comida, risas y muchos momentos para recordar.</p>
+                </div>
+            </div>
+
+            <div class="event">
+                <div class="time">7:30</div>
+
+                <div class="content">
+                    <h3>✨ Próximo destino</h3>
+                    <p>La aventura aún no termina... todavía queda una sorpresa esperándote.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <span class="heart">❤</span><br><br>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
